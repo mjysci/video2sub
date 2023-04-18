@@ -1,0 +1,6 @@
+lang: en
+model: small
+proxy: ""
+output: txt
+verbose: False
+force: False
