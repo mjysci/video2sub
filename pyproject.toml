@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "video2sub"
-version = "0.1.0"
+version = "0.1.1"
 description = "Transcribes video/audio/url to subtitles."
 authors = ["MA Junyi <mjy@z.mjyai.com>"]
 license = "MIT"
