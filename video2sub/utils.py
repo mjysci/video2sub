@@ -18,14 +18,15 @@ def get_config():
     dict: The contents of the configuration file, or an empty dictionary if the file
     does not exist or there is an error loading it.
     """
-    config_path = os.path.join(os.path.expanduser("~"), ".config", "video2txt.yml")
+    config_path = os.path.join(
+        os.path.expanduser("~"), ".config", "config.video2sub.yml"
+    )
     if os.path.exists(config_path):
         with open(config_path, "r") as stream:
             try:
                 return yaml.safe_load(stream)
             except yaml.YAMLError as exc:
                 print(exc)
-                return {}
 
 
 def process_input(input_str):

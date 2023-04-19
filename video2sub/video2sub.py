@@ -2,7 +2,7 @@ import argparse
 from .utils import get_config, process_input, url2sub, video2audio, audio2sub
 
 # Get default configuration values
-default_args = get_config()
+default_args = get_config() or {}
 
 # Create argument parser for CLI
 parser = argparse.ArgumentParser(description="video_url --lang --model --force")

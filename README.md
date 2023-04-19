@@ -5,11 +5,15 @@ video2sub is a command-line tool that transcribes video/audio/url to subtitles. 
 ## Requirements
 
 Python 3.8+  
-CUDA supported GPU
+ffmpeg
 
 ## Installation
 
-Install [pipx](https://github.com/pypa/pipx)
+Install [ffmpeg](https://ffmpeg.org/download.html).
+
+(Optional) Install [CUDA](https://developer.nvidia.com/cuda-toolkit) & [cuDNN](https://developer.nvidia.com/cudnn). You can either install them system wide or create a conda environment using `environment.yml`.
+
+Install [pipx](https://github.com/pypa/pipx).
 
 Install video2sub using pipx:
 
@@ -17,7 +21,7 @@ Install video2sub using pipx:
 pipx install video2sub --include-deps
 ```
 
-(Optional) Copy `config.example.yml` to `~/.config/` then rename it to `config.yml`. Edit it to your prefer default value.
+(Optional) Copy `config.vide2sub.example.yml` to `~/.config/` (win `%UserProfile%\.config`) then rename it to `config.video2sub.yml`. Edit it to your prefer default value.
 
 ## Usage
 
@@ -34,6 +38,7 @@ video2sub [video_url] [--lang] [--model] [--proxy] [--output] [--verbose] [--for
 |--output|Output format: txt, vtt, srt, tsv, json. Default: "txt".|
 |--verbose|Show output.|
 |--force|Force to retrieve then transcribe video regardless of existing audio or subtitle file.|
+
 Note: If the --lang or --model arguments are not specified, the tool will use the default values which can be set by the user in the configuration file `~/.config/video2txt.yml`.
 
 ## Examples
