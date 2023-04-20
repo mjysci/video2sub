@@ -11,14 +11,14 @@ ffmpeg
 
 Install [ffmpeg](https://ffmpeg.org/download.html).
 
-(Optional) Install [CUDA](https://developer.nvidia.com/cuda-toolkit) & [cuDNN](https://developer.nvidia.com/cudnn). You can either install them system wide or create a conda environment using `environment.yml`.
+(Optional) Install [CUDA](https://developer.nvidia.com/cuda-toolkit) & [cuDNN](https://developer.nvidia.com/cudnn). You can either install them system wide or create a conda environment using [environment.yml](https://github.com/mjysci/video2sub/blob/main/environment.yml).
 
 Install [pipx](https://github.com/pypa/pipx).
 
 Install video2sub using pipx:
 
 ```sh
-pipx install video2sub --include-deps
+pipx install video2sub
 ```
 
 (Optional) Copy `config.vide2sub.example.yml` to `~/.config/` (win `%UserProfile%\.config`) then rename it to `config.video2sub.yml`. Edit it to your prefer default value.
@@ -39,7 +39,7 @@ video2sub [video_url] [--lang] [--model] [--proxy] [--output] [--verbose] [--for
 |--verbose|Show output.|
 |--force|Force to retrieve then transcribe video regardless of existing audio or subtitle file.|
 
-Note: If the --lang or --model arguments are not specified, the tool will use the default values which can be set by the user in the configuration file `~/.config/video2txt.yml`.
+Note: If the --lang or --model arguments are not specified, the tool will use the default values which can be set by the user in the configuration file `~/.config/config.video2sub.yml`.
 
 ## Examples
 

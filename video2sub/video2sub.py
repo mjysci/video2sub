@@ -1,5 +1,9 @@
 import argparse
-from .utils import get_config, process_input, url2sub, video2audio, audio2sub
+
+if __name__ == "__main__":
+    from utils import get_config, process_input, url2sub, video2audio, audio2sub
+else:
+    from .utils import get_config, process_input, url2sub, video2audio, audio2sub
 
 # Get default configuration values
 default_args = get_config() or {}
