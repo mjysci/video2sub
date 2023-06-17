@@ -62,7 +62,7 @@ def video2audio(input_file):
     Args:
     input_file(str): The filepath of the input video file.
     """
-    output_file = input_file.split(".")[0] + ".mp3"
+    output_file = os.path.splitext(input_file)[0] + ".mp3"
     stream = ffmpeg.input(input_file)
     audio = stream.audio
     audio = ffmpeg.output(audio, output_file)
@@ -88,7 +88,7 @@ def audio2sub(audio_filename, output_ext, model, language, force=False, verbose=
                 during processing.
     """
     audio_filepath = os.path.join(os.getcwd(), audio_filename)
-    output_filename = audio_filename.split(".")[0] + "." + output_ext
+    output_filename = os.path.splitext(audio_filename)[0] + "." + output_ext
     if not os.path.exists(output_filename) or force:
         model = whisper.load_model(model)
         transcription_response = model.transcribe(
@@ -127,7 +127,7 @@ def url2sub(video_url, output_ext, model, language, proxy, force=False, verbose=
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         try:
             info_dict = ydl.extract_info(video_url, download=False)
-            mp3_filename = ydl.prepare_filename(info_dict).split(".")[0] + ".mp3"
+            mp3_filename = os.path.splitext(ydl.prepare_filename(info_dict))[0] + ".mp3"
             mp3_filepath = os.path.join(os.getcwd(), mp3_filename)
             # Check if subtitles are available in given language
             if (

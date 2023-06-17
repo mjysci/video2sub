@@ -1,4 +1,5 @@
 import argparse
+import os
 
 if __name__ == "__main__":
     from utils import get_config, process_input, url2sub, video2audio, audio2sub
@@ -70,7 +71,7 @@ def video2sub():
 
     elif path_dict["type"] == "video":
         video2audio(path_dict["path"])
-        mp3_filename = path_dict["path"].split(".")[0] + ".mp3"
+        mp3_filename = os.path.splitext(path_dict["path"])[0] + ".mp3"
         audio2sub(
             mp3_filename, args.output, args.model, args.lang, args.force, args.verbose
         )
