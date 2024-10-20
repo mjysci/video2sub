@@ -14,7 +14,7 @@ url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 [tool.poetry.dependencies]
 python = "^3.8.1"
 openai-whisper = "^20230314"
-yt-dlp = "^2024.8.6"
+yt-dlp = "^2024.10.7"
 PyYAML = "^6.0"
 nvidia-cudnn-cu11 = {version = "^8.9.0.131", platform = "linux"}
 nvidia-nccl-cu11 = {version = "^2.16.5", platform = "linux"}
