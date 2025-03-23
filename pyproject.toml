@@ -1,23 +1,18 @@
 [tool.poetry]
 name = "video2sub"
-version = "0.1.1"
+version = "0.1.2"
 description = "Transcribes video/audio/url to subtitles."
 authors = ["MA Junyi <mjy@z.mjyai.com>"]
 license = "MIT"
 readme = "README.md"
 
-[[tool.poetry.source]]
-name = "tsinghua"
-priority = 'default'
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
-
 [tool.poetry.dependencies]
-python = "^3.8.1"
-openai-whisper = "^20230314"
-yt-dlp = "^2024.10.7"
+python = "^3.9"
+openai-whisper = "^20240930"
+yt-dlp = "^2025.3.21"
 PyYAML = "^6.0"
-nvidia-cudnn-cu11 = {version = "^8.9.0.131", platform = "linux"}
-nvidia-nccl-cu11 = {version = "^2.16.5", platform = "linux"}
+ffmpeg-python = "^0.2.0"
+torch = "1.13.1"
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.0.0"
