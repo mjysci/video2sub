@@ -1,0 +1,28 @@
+[workspace]
+authors = ["MA Junyi <mjy@z.mjyai.com>"]
+name = "video2sub"
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+version = "0.2.0"
+
+[dependencies]
+python = "3.12.*"
+pip = "*"
+yt-dlp = ">=2026.3.17,<2027"
+ffmpeg-python = ">=0.2.0,<0.3"
+pyyaml = ">=6.0.3,<7"
+
+[feature.cuda.dependencies]
+cuda-version = "12.*"
+libcublas = "12.*"
+cudnn = "9.*"
+
+[tasks]
+shell = "bash"
+
+[pypi-dependencies]
+faster-whisper = ">=1.2.1, <2"
+
+[environments]
+default = []
+cuda = ["cuda"]

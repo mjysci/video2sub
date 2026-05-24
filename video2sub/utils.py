@@ -1,9 +1,14 @@
 import re
 import os
+import json
 import yaml
 import ffmpeg
-import whisper
 import yt_dlp
+
+try:
+    from faster_whisper import WhisperModel
+except ImportError:
+    WhisperModel = None
 
 
 def get_config():
@@ -69,6 +74,62 @@ def video2audio(input_file):
     ffmpeg.run(audio)
 
 
+def _format_timestamp(seconds):
+    milliseconds = int(seconds * 1000)
+    hours, remainder = divmod(milliseconds, 3600000)
+    minutes, remainder = divmod(remainder, 60000)
+    seconds, milliseconds = divmod(remainder, 1000)
+    return f"{hours:02}:{minutes:02}:{seconds:02}.{milliseconds:03}"
+
+
+def _write_subtitles(output_ext, output_filename, segments):
+    text = "\n".join(segment.text.strip() for segment in segments if segment.text.strip())
+
+    if output_ext == "txt":
+        with open(output_filename, "w", encoding="utf-8") as output_file:
+            output_file.write(text)
+        return
+
+    if output_ext == "json":
+        output_data = {
+            "text": text,
+            "segments": [
+                {
+                    "id": i + 1,
+                    "start": segment.start,
+                    "end": segment.end,
+                    "text": segment.text,
+                }
+                for i, segment in enumerate(segments)
+            ],
+        }
+        with open(output_filename, "w", encoding="utf-8") as output_file:
+            json.dump(output_data, output_file, ensure_ascii=False, indent=2)
+        return
+
+    lines = []
+    for i, segment in enumerate(segments, 1):
+        start = _format_timestamp(segment.start)
+        end = _format_timestamp(segment.end)
+        text_line = segment.text.strip()
+
+        if output_ext == "srt":
+            lines.append(f"{i}\n{start} --> {end}\n{text_line}\n")
+        elif output_ext == "vtt":
+            lines.append(f"{start} --> {end}\n{text_line}\n")
+        elif output_ext == "tsv":
+            lines.append(f"{start}\t{end}\t{text_line}")
+        else:
+            raise ValueError(
+                f"Unsupported output format '{output_ext}'. Use txt, srt, vtt, tsv, or json."
+            )
+
+    with open(output_filename, "w", encoding="utf-8") as output_file:
+        if output_ext == "vtt":
+            output_file.write("WEBVTT\n\n")
+        output_file.write("\n".join(lines))
+
+
 def audio2sub(audio_filename, output_ext, model, language, force=False, verbose=False):
     """
     Uses a speech recognition model to transcribe an audio file and
@@ -87,15 +148,26 @@ def audio2sub(audio_filename, output_ext, model, language, force=False, verbose=
     verbose(bool): An optional flag indicating whether to print additional information
                 during processing.
     """
+    if WhisperModel is None:
+        raise ImportError(
+            "faster-whisper is required for transcription. Install it with `poetry install -E gpu`."
+        )
+
     audio_filepath = os.path.join(os.getcwd(), audio_filename)
     output_filename = os.path.splitext(audio_filename)[0] + "." + output_ext
     if not os.path.exists(output_filename) or force:
-        model = whisper.load_model(model)
-        transcription_response = model.transcribe(
-            audio_filepath, language=language, verbose=True
+        if verbose:
+            print(f"Transcribing {audio_filepath} with model {model}...")
+
+        whisper_model = WhisperModel(model, device="auto", compute_type="float16")
+        segments, _ = whisper_model.transcribe(
+            audio_filepath,
+            language=language,
+            task="transcribe",
+            beam_size=5,
         )
-        output_writer = whisper.utils.get_writer(output_ext, "./")
-        output_writer(transcription_response, audio_filename)
+
+        _write_subtitles(output_ext, output_filename, segments)
 
 
 def url2sub(video_url, output_ext, model, language, proxy, force=False, verbose=False):

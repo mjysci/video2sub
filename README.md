@@ -1,24 +1,26 @@
 # video2sub
 
-video2sub is a command-line tool that transcribes video/audio/url to subtitles. It supports various subtitle formats such as txt, srt, vtt, tsv, and json. The tool uses speech recognition models from [whisper](https://github.com/openai/whisper) to perform transcription.
+video2sub is a command-line tool that transcribes video/audio/url to subtitles. It supports various subtitle formats such as txt, srt, vtt, tsv, and json. The tool uses speech recognition models from [faster-whisper](https://github.com/SYSTRAN/faster-whisper) to perform transcription.
 
 ## Requirements
 
-Python 3.8+  
+Python 3.12+  
 ffmpeg
 
 ## Installation
 
-Install [ffmpeg](https://ffmpeg.org/download.html).
+Install [Pixi](https://pixi.prefix.dev/latest/installation/).
 
-(Optional) Install [CUDA](https://developer.nvidia.com/cuda-toolkit) & [cuDNN](https://developer.nvidia.com/cudnn). You can either install them system wide or create a conda environment using [environment.yml](https://github.com/mjysci/video2sub/blob/main/environment.yml).
-
-Install [pipx](https://github.com/pypa/pipx).
-
-Install video2sub using pipx:
+Activate video2sub env with cpu only:
 
 ```sh
-pipx install video2sub
+pixi shell
+```
+
+Or with gpu support:
+
+```sh
+pixi shell -e cuda
 ```
 
 (Optional) Copy `config.vide2sub.example.yml` to `~/.config/` (win `%UserProfile%\.config`) then rename it to `config.video2sub.yml`. Edit it to your prefer default value.
