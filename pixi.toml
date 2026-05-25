@@ -19,6 +19,7 @@ cudnn = "9.*"
 
 [tasks]
 shell = "bash"
+video2sub = "python video2sub/video2sub.py"
 
 [pypi-dependencies]
 faster-whisper = ">=1.2.1, <2"
